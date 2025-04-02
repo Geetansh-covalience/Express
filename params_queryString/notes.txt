@@ -1,0 +1,7 @@
+params are in url to have dynamic route if we want them mandatroy we write /:para
+and access and change them using req.params.para  
+if we want it as temp then write /:opara?
+
+query string is after ?
+like /user?name=geet&pass=1234
+handlin multiple requ = const {a,b,c} = req.query

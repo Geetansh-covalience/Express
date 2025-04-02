@@ -1,0 +1,12 @@
+
+ ************ Express will use the maxAge value and ignore the expires value.
+
+Option	        Purpose	                                                            Example Values	                                            When to Use
+maxAge	        Specifies how long the cookie lasts in milliseconds.	            3600000 (1 hour),600000 (10 minutes)	                    Use when you want a cookie that expires after a set duration from being set.
+expires	        Specifies an exact expiration date/time for the cookie.	            new Date(2023, 5, 15, 15, 30,25)	                        Use for setting a fixed expiration date for the cookie.
+httpOnly	    Prevents the cookie from being accessed via JavaScript.	            true, false	                                                Always set to true for sensitive cookies like session tokens.
+secure	        Ensures the cookie is only sent over HTTPS connections.	            true, false	                                                Use true for cookies that should only be sent over HTTPS for security.
+sameSite	    Controls whether the cookie is sent in cross-site requests.	        Strict, Lax, None	                                        Use Strict for highest security, None for third-party cookies.
+path	        Defines the URL path for which the cookie is valid.	                '/', '/account', '/dashboard'	                            Use to limit cookie scope to specific paths on the website.
+domain	        Defines the domain for which the cookie is valid.	                'example.com', '.example.com','www.example.com'	            Use for cookies that should be available to subdomains of a given domain.
+priority	    Sets the priority of the cookie in storage.	                        low, medium, high	                                        Use for managing cookie storage priorities (important for large websites).

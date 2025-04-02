@@ -1,0 +1,50 @@
+app.use("/user") => it will handle all the request that starts with /user whether it is /user/profile or /user/settings
+app.get("/user) => it will handle only /user request
+
+express.static
+==============
+
+to access direct file write => /filename
+
+to access a file from nested dir we have 2 ways
+a. express.static("/dir/dir/filename") and write in url /filename
+b. express.static("/dir") and write in url /dir/filename
+
+to give custom url write app.use("/url",express.static("dir")) and in url write /url/...
+
+to access a specific file with specific route write "/url,"express.static("/dir/filename");
+
+******
+app.use("/js",express.static('public'))
+app.use("/text",express.static('public/txt'))
+app.use("/image",express.static('public/img'))
+app.use("/html",express.static('public/txt/html.html'))
+ 
+HERE ONLY THOSE FILES PRESENT IN PUBLIC FOLDER CAN BE access USING /JS/FILENAME NO ONE INSIDE DIRECTORIES
+
+
+
+
+
+res.render vs res.redirect vs res.send 
+======================================
+
+res.redirect 
+app.get("/user) res.redirect ("/profile") here if we hit /user user will move to /profile
+
+res.render
+when we are working with view engines like pug or ejs render is used to render view files
+
+
+
+
+express.json vs express.urlencoded
+==================================
+ use json when to parse json objecta like having api  data fetched
+ use urlencoded when we have form data
+
+ in urlencoded it has option extended if set true qs library will fetch complex arrays and objects
+ and in case of false it will fetch simple data querystring will be used 
+
+
+

@@ -1,0 +1,15 @@
+  let filePath = dirname(fileURLToPath(import.meta.url))
+  console.log(dirname(process.cwd()));
+  
+  res.sendFile(`${filePath}/express.png`, {
+    headers: {
+      "Content-Disposition": 'inline; fsilename="express.png"',
+    },
+  });
+
+
+  content-disposition : inline means to show file in browser and in attachment it means to downlaod the file
+  
+
+  we have res.setHeader where we can add cache-control having values like public private ,
+  maxage, cdn proxy server 
