@@ -1,0 +1,8 @@
+jwt is used for securely transmitting information between parties as a JSON object
+can be used for authentication and information exchange. It is typically used in web applications
+to manage authentication without having to store session data on the server side.
+
+A JWT consists of three parts:
+Header => has two piece => algo,type
+Payload => stores info like time, data etc
+Signature => to verify the token's integrity and authenticity.

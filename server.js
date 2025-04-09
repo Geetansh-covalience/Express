@@ -1,19 +1,25 @@
-import express from "express";
-import cookieParser from "cookie-parser";
-import user from "./router/router.js";
-import img from "./router/img.js"
-const app = express();
+// import express from "express";
+// import cookieParser from "cookie-parser";
+// import user from "./router/router.js";
+// import img from "./router/img.js"
+// import path from "path"
+// import ejs from "ejs"
+// import { dirname } from "path";
+// const app = express();
 
+// app.set("view engine","ejs");
+// app.set("views",path.resolve(path.join(process.cwd()),"views"))
 
-
-app.get("/" , (req,res) => {
-  res.send("Hi")
-})
-app.use("/user",user)
-app.use("/img",img)
-app.use((req,res) => {
-  res.status(404).send("Galat Page ha")
-})
+// app.get("/" , (req,res) => {
+//   res.render("index",{name:"Geetansh"})
+//   console.log(path.resolve(path.join(process.cwd()),"views"));
+  
+// })
+// app.use("/user",user)
+// app.use("/img",img)
+// app.use((req,res) => {
+//   res.status(404).send("Galat Page ha")
+// })
 // app.use("/js",express.static('public'))
 // app.use("/text",express.static('public/txt'))
 // app.use("/image",express.static('public/img'))
@@ -64,6 +70,21 @@ app.use((req,res) => {
 //   }
 // });
 
+import express from "express";
+import path from "path";
+import ejs from "ejs";
+ 
+const app = express();
+ 
+// Set EJS as the view engine
+app.engine("ejs",ejs.renderFile);
+app.set("view engine", "ejs");
+app.set("views", path.resolve(process.cwd(), "views"));
+ 
+app.get("/", (req, res) => {
+  res.render("index",{name: "Geetansh"});  // This should work if EJS is installed
+});
+ 
 app.listen(3000, () => {
-  console.log("running");
+  console.log("Server running on http://localhost:3000");
 });

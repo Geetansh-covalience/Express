@@ -1,0 +1,106 @@
+-------------------------------------------
+EJS Tags and Their Behavior
+-------------------------------------------
+
+| **Tag**           | **What It Does**                                                                  | **Use Case**                                                            | **Example with Dangerous Content**                                                                                   | **Output Example**                                                                                          |
+|-------------      |--------------------------------------------------------                           |----------------------------------------------------                     |----------------------------------------------------------------------------------------------------                  |------------------------------------------------------------------------------------------------------------|
+| <%= ... %>        | **Escapes** the output: Outputs the value into the template, HTML-escaped         | When displaying data from variables safely (escape HTML to avoid XSS).  | **Dangerous**: If content contains HTML tags (e.g., <script>...</script>), the tag is escaped and shown as text.     | user.comment = "<h2>Hello</h2>" → Output: &lt;h2&gt;Hello&lt;/h2&gt;  
+| <%- ... %>        | **No escaping**: Outputs the value as is (i.e., unescaped)                        | For rendering HTML content safely (e.g., formatting in blog posts).     | **Dangerous**: If the content contains HTML or JavaScript code, it will be executed.                                 | user.comment = "<h2>Hello</h2>" → Output: <h2>Hello</h2> (Rendered as an actual heading)  
+| <% ... %>         | **Scriptlet**: Used for logic (control-flow, loops, etc.), no output              | For running JavaScript code without producing any output.               | **Safe**: No output; useful for loops or conditionals.                                                               | <% if (user) { %>  <h1><%= user.name %></h1> <% } %> (This will display user.name if `user` exists).  
+| <%_ ... %>        | **Whitespace slurping**: Removes any whitespace before the tag.                   | For minimizing extra spaces in generated HTML output.                   | **Safe**: Same as `<% ... %>`, but without extra whitespace.                                                         | <%_ if (user) { %>  <h1><%= user.name %></h1> <%_ } %> (Whitespace before the tags will be removed).  
+| <%# ... %>        | **Comment tag**: Used for adding comments that don't show in the rendered output. | For internal comments that are not displayed to users.                  | **Safe**: No output. Comments are completely ignored.                                                                | <%# This is a comment %> (Nothing will appear in the output)  
+| <%% ... %%>       | **Literal `<%` tag**: Outputs a literal `<%` character in the template.           | When you need to print out an actual `<%` symbol.                       | **Safe**: Used for escaping actual `<%` tags.                                                                        | <%%  → Output: `<%` (Printed as a literal `%` symbol)  
+| -%> ...           | **Trim mode**: Removes any trailing whitespace after a tag.                       | To clean up unnecessary newlines or spaces at the end of a tag.         | **Safe**: Just trims the whitespace after the tag.                                                                   | <% if (user) { %>  <h1><%= user.name %></h1> <%_ } %> will trim newlines or spaces after the `</h1>`.  
+| _%> ...           | **Whitespace slurping at the end**: Removes any whitespace after the tag.         | Same as `-%>`, but also removes the space following the closing tag.    | **Safe**: Used for more control over whitespace handling.                                                            | <%_ if (user) { %> <h1><%= user.name %></h1> <%_ } %> → This would remove trailing spaces after `</h1>`.  
+
+
+-------------------------------------------
+Detailed Explanation with Examples:
+-------------------------------------------
+
+1. **`<% ... %>` - Scriptlet Tag (Control Flow without Output)**
+   - **Use Case**: When you want to execute logic like loops or conditionals without generating output.
+   - **Example**:
+     ```html
+     <% if (user) { %>
+         <h1>Welcome, <%= user.name %></h1>
+     <% } %>
+     ```
+   - **Explanation**: The `<% if (user)  %>` tag runs the JavaScript code inside it, but does not output anything to the page unless explicitly rendered with `<%= ... %>`. It's typically used for control flow.
+   - **Dangerous Example**: Not applicable here because no output is produced.
+
+2. **`<%= ... %>` - Escaped Output (HTML-escaped)**
+   - **Use Case**: When you want to render data safely and prevent XSS (Cross-site scripting) attacks by escaping HTML tags.
+   - **Example**:
+     ```html
+     <h1>Welcome, <%= user.name %></h1>
+     <p><%= user.description %></p>
+     ```
+   - **Explanation**: The value inside `<%= ... %>` is **escaped**, meaning HTML special characters like `<` and `>` will be replaced with their respective HTML entities (`&lt;`, `&gt;`) to prevent the browser from interpreting it as HTML.
+   - **Dangerous Example**: 
+     ```javascript
+     user.description = "<script>alert('Hacked!');</script>";
+     ```
+     Output: `&lt;script&gt;alert('Hacked!');&lt;/script&gt;` (Escaped version).
+
+3. **`<%- ... %>` - Unescaped Output**
+   - **Use Case**: When you want to render HTML without escaping it.
+   - **Example**:
+     ```html
+     <%- user.comment %>
+     ```
+   - **Explanation**: The value inside `<%- ... %>` is **not escaped**, so if the content includes HTML tags, they will be rendered as HTML (and not escaped). Use this carefully to avoid XSS vulnerabilities.
+   - **Dangerous Example**:
+     ```javascript
+     user.comment = "<script>alert('Hacked!');</script>";
+     ```
+     Output: `<script>alert('Hacked!');</script>` (Executed as a script).
+
+4. **`<%_ ... %>` - Whitespace Slurping**
+   - **Use Case**: When you want to remove any leading whitespace before a tag.
+   - **Example**:
+     ```html
+     <%_ if (user) { %>
+         <h1><%= user.name %></h1>
+     <%_ } %>
+     ```
+   - **Explanation**: The whitespace before the tag is **slurped** (removed), meaning there will be no extra spaces or newlines before the scriptlet tag.
+   - **Dangerous Example**: Not applicable as no output is produced.
+
+5. **`<%# ... %>` - Comment Tag**
+   - **Use Case**: When you want to add comments inside templates that do not show up in the final output.
+   - **Example**:
+     ```html
+     <%# This is a comment %>
+     ```
+   - **Explanation**: The content inside the comment tag is completely ignored during rendering and does not appear in the output.
+   - **Dangerous Example**: Not applicable since comments do not generate any output.
+
+6. **`<%% ... %%>` - Literal `<%` Tag**
+   - **Use Case**: When you need to print a literal `<%` symbol (for example, in documentation).
+   - **Example**:
+     ```html
+     <%% This is not a tag %>
+     ```
+   - **Explanation**: This will output the literal `<%` symbol in the template.
+   - **Dangerous Example**: Not applicable as no dangerous content is generated here.
+
+7. **`-%> ...` - Trim Mode**
+   - **Use Case**: When you want to remove trailing whitespace after a tag.
+   - **Example**:
+     ```html
+     <% if (user) { %>
+         <h1><%= user.name %></h1>
+     <%_ } %>
+     ```
+   - **Explanation**: This will ensure there is no extra whitespace after the closing tag.
+   - **Dangerous Example**: Not applicable as no output is produced.
+
+8. **`_%> ...` - Whitespace Slurping at the End**
+   - **Use Case**: When you want to remove any whitespace after the tag.
+   - **Example**:
+     ```html
+     <%_ if (user) { %> <h1><%= user.name           %></h1> <%_ } %>
+     ```
+   - **Explanation**: This removes all whitespace after the tag, ensuring a clean output without unnecessary spaces.
+   - **Dangerous Example**: Not applicable as no dangerous content is generated here.
