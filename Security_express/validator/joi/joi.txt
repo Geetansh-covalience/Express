@@ -1,0 +1,47 @@
+Joi.string(): Ensures the field is a string.
+Joi.number(): Ensures the field is a number.
+Joi.boolean(): Ensures the field is a boolean (true or false).
+Joi.date(): Ensures the field is a date.
+Joi.array(): Ensures the field is an array and allows you to validate items inside the array.
+.min(x): Ensures the string has at least x characters.
+.max(x): Ensures the string has no more than x characters.
+.email(): Ensures the string is a valid email address.
+.regex(pattern): Ensures the string matches a specific regular expression.
+.valid(...values): Ensures the value is one of the specified valid values.
+.forbidden(): Ensures the field cannot be provided.
+
+
+
+string.base: Used when the field is required to be a string.
+string.empty: Ensures that the string is not empty.
+string.min: Ensures the string has a minimum length.
+string.max: Ensures the string doesn't exceed a maximum length.
+string.email: Validates that the string is a valid email.
+any.required: Ensures the field is required.
+any.only: Ensures the value is one of the specified options.
+number.base: Ensures the value is a number.
+
+
+
+
+
+
+
+
+Feature/Aspect	                        Yup	                                                                        Joi
+==================================================================================================================================================================================
+Type of Library	                     Client-side and server-side validation	                                         Primarily server-side validation
+Validation Approach	                 Schema-based, similar to Joi	                                                 Schema-based, highly declarative
+Validation Syntax	                 Uses .object().shape() for objects and .array().of() for arrays	             Uses .object() and .array().items() for objects and arrays
+Validation Flow	                     Uses .validate() for validation	                                             Uses .validate() for validation
+Error Handling	                     Returns an error object with a .errors array for failed validation	             Returns an error object with .details array for failed validation
+Asynchronous                         Validation	Supports async validation with .test()	                             Supports async validation with .async() or .validateAsync()
+Type Checking	                     Uses JavaScript types internally (e.g., string, number)	                     Uses JavaScript types internally (e.g., string, number)
+Custom Validation	                 .test() method allows custom validation logic	                                 .custom() method allows custom validation logic
+Error Messages	                     Provides built-in messages and custom messages with                             .message()	Custom messages can be added with .messages() and .custom()
+Type Conversion	                     Supports type conversion (e.g., strings to dates)	                             Supports type conversion (e.g., strings to numbers)
+Deprecation of Methods	             More stable with fewer breaking changes	                                     Has had some breaking changes in the past (e.g., Joi.validate deprecated)
+Support for Nested Validation	     Supports nested objects and arrays validation	                                 Supports nested objects and arrays validation
+Use with Forms	                     Commonly used on the frontend (e.g., React, Angular)	                         Commonly used in server-side (Node.js/Express)
+Size	                             Smaller bundle size compared to Joi	                                         Larger compared to Yup due to more features
+Popular Use Cases	                 Client-side form validation, client-server communication validation	         Server-side API request validation, user input validation

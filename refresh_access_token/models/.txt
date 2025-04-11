@@ -1,0 +1,4 @@
+Option	                                Description	                                                                Use Case
+sequelize.sync()	                    Creates missing tables but doesn’t alter existing ones.	                    Use in development or on a fresh project.
+sequelize.sync({ force: true })	        Drops all existing tables and recreates them from models.	                Use in development only when you want a fresh start.
+sequelize.sync({ alter: true })	        Alters existing tables to match models (e.g., adding new columns).	        Safer than force: true for development, but risky for complex schemas.
