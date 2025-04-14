@@ -2,3 +2,43 @@ Option	                                Description	                             
 sequelize.sync()	                    Creates missing tables but doesn’t alter existing ones.	                    Use in development or on a fresh project.
 sequelize.sync({ force: true })	        Drops all existing tables and recreates them from models.	                Use in development only when you want a fresh start.
 sequelize.sync({ alter: true })	        Alters existing tables to match models (e.g., adding new columns).	        Safer than force: true for development, but risky for complex schemas.
+
+Create / Insert
+await User.create({
+  username: 'john_doe',
+  password: 'secret123',
+});
+
+
+✅ Find All Users
+const users = await User.findAll();
+
+
+✅ Find One User by Condition
+const user = await User.findOne({
+  where: { username: 'john_doe' },
+});
+
+
+✅ Find by Primary Key
+const user = await User.findByPk(1);
+
+
+✅ Update
+await User.update(
+  { password: 'new_password' },       // What to update
+  { where: { uid: 1 } }               // Where condition
+);
+
+
+✅ Delete / Destroy
+await User.destroy({
+  where: { uid: 1 },
+});
+
+
+✅ Include (Join with Associations)
+const userWithToken = await User.findOne({
+  where: { uid: 1 },
+  include: Token, // Must have defined association
+});

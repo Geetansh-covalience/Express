@@ -1,11 +1,10 @@
 import { DataTypes } from "sequelize";
 import sql from "../config/db.js";
 
-
-let user = sql.define(
+const User = sql.define(
   "User",
   {
-    id: {
+    uid: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
@@ -18,20 +17,14 @@ let user = sql.define(
     },
 
     password: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
     },
-
-    token:{
-      type:DataTypes.STRING,
-      allowNull:false
-    }
   },
-
   {
-    timestamps: true,
+    timestamps: false,
+    tableName: "user",
   }
 );
 
-
-export default user
+export default User;
